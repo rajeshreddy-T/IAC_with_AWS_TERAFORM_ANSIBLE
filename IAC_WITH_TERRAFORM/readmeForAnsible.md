@@ -1,0 +1,11 @@
+## steps to use ansible tower and connect to ec2 instance and run the above play book
+
+1. create a ec2 instance and install ansible tower on that instance with https://www.ansible.com/products/tower
+2. Configure your AWS credentials in Ansible Tower. In the Ansible Tower web interface, navigate to "Settings" and then "Credentials". Click the "+" button to create a new credential and select "Amazon Web Services" as the credential type. Enter your AWS access key and secret access key, and then save the credential.
+3. Create a project in Ansible Tower that includes your playbook. In the Ansible Tower web interface, navigate to "Projects" and then click the "+" button to create a new project. Enter a name for the project, and then select the source code management system that hosts your playbook (e.g., Git). Enter the repository URL and the credentials to access the repository, and then select the branch or tag that contains your playbook. Click the "Save" button to save the project.
+3. Create an inventory in Ansible Tower that includes your EC2 instances. In the Ansible Tower web interface, navigate to "Inventories" and then click the "+" button to create a new inventory. Enter a name for the inventory, select "ec2" as the inventory source, and then enter your AWS region and the credentials you created in step 2. Click the "Save" button to save the inventory
+4. Create a job template in Ansible Tower that uses your inventory and playbook. In the Ansible Tower web interface, navigate to "Templates" and then click the "+" button to create a new job template. Enter a name for the job template, select the project you created in step 4, and then select the inventory you created in step 3. Select the playbook you want to run, and then configure any other settings as needed (e.g., limit the playbook to specific hosts or set variables). Click the "Save" button to save the job template.
+5. Launch the job from Ansible Tower. In the Ansible Tower web interface, navigate to "Templates" and then click the name of the job template you created in step 5. Click the "Launch" button to launch the job. Ansible Tower will connect to the EC2 instances and run the playbook, displaying the output in the web interface.
+
+
+

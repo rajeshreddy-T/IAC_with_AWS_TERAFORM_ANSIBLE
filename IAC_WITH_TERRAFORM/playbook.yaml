@@ -1,0 +1,17 @@
+# deploy the https://github.com/RajeshOrganization/Workflow-test-with-reactAPP on the ec2 instance
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - vars.yaml
+  tasks:
+    - name: "Deploy the https://github.com/RajeshOrganization/Workflow-test-with-reactAPP on the ec2 instance"
+      become: yes
+      become_user: ubuntu
+      shell: |
+        cd /home/ubuntu
+        git clone https://github.com/RajeshOrganization/Workflow-test-with-reactAPP
+        cd Workflow-test-with-reactAPP
+        npm install
+
