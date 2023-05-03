@@ -6,6 +6,3 @@
 3. Create an inventory in Ansible Tower that includes your EC2 instances. In the Ansible Tower web interface, navigate to "Inventories" and then click the "+" button to create a new inventory. Enter a name for the inventory, select "ec2" as the inventory source, and then enter your AWS region and the credentials you created in step 2. Click the "Save" button to save the inventory
 4. Create a job template in Ansible Tower that uses your inventory and playbook. In the Ansible Tower web interface, navigate to "Templates" and then click the "+" button to create a new job template. Enter a name for the job template, select the project you created in step 4, and then select the inventory you created in step 3. Select the playbook you want to run, and then configure any other settings as needed (e.g., limit the playbook to specific hosts or set variables). Click the "Save" button to save the job template.
 5. Launch the job from Ansible Tower. In the Ansible Tower web interface, navigate to "Templates" and then click the name of the job template you created in step 5. Click the "Launch" button to launch the job. Ansible Tower will connect to the EC2 instances and run the playbook, displaying the output in the web interface.
-
-
-

@@ -1,0 +1,191 @@
+---
+Resources:
+  myVpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: "10.0.0.0/16"
+      Tags:
+        - Key: Name
+          Value: my_vpc
+
+  publicSubnetAz1a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref myVpc
+      AvailabilityZone: "us-east-1a"
+      CidrBlock: "10.0.1.0/24"
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: public_subnet_az1a
+
+  publicSubnetAz1b:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref myVpc
+      AvailabilityZone: "us-east-1a"
+      CidrBlock: "10.0.2.0/24"
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: public_subnet_az1b
+
+  publicSubnetAz2a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref myVpc
+      AvailabilityZone: "us-east-1b"
+      CidrBlock: "10.0.3.0/24"
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: public_subnet_az2a
+
+  publicSubnetAz2b:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref myVpc
+      AvailabilityZone: "us-east-1b"
+      CidrBlock: "10.0.4.0/24"
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: public_subnet_az2b
+
+  privateSubnetAz1a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref myVpc
+      AvailabilityZone: "us-east-1a"
+      CidrBlock: "10.0.5.0/24"
+      Tags:
+        - Key: Name
+          Value: private_subnet_az1a
+
+  privateSubnetAz2a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref myVpc
+      AvailabilityZone: "us-east-1b"
+      CidrBlock: "10.0.6.0/24"
+      Tags:
+        - Key: Name
+          Value: private_subnet_az2a
+
+  dbSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupName: my_db_subnet_group
+      DBSubnetGroupDescription: "Subnet group for RDS instance"
+      SubnetIds:
+        - !Ref privateSubnetAz1a
+        - !Ref privateSubnetAz2a
+
+  rdsInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBName: my_database
+      Engine: mysql
+      EngineVersion: "5.7"
+      DBInstanceClass: db.t2.micro
+      MasterUsername: my_username
+      MasterUserPassword: my_password
+      DBSubnetGroupName:
+    - !Ref dbSubnetGroup
+ec2SecurityGroup:
+Type: AWS::EC2::SecurityGroup
+Properties:
+GroupDescription: Security group for EC2 instances
+VpcId: !Ref myVpc
+
+ec2SecurityGroupIngress:
+Type: AWS::EC2::SecurityGroupIngress
+Properties:
+GroupId: !Ref ec2SecurityGroup
+IpProtocol: tcp
+FromPort: 80
+ToPort: 80
+CidrIp: 0.0.0.0/0
+
+ec2AutoScalingGroup:
+Type: AWS::AutoScaling::AutoScalingGroup
+Properties:
+VPCZoneIdentifier:
+- !Ref publicSubnetAz1a
+- !Ref publicSubnetAz1b
+- !Ref publicSubnetAz2a
+- !Ref publicSubnetAz2b
+LaunchConfigurationName: !Ref ec2LaunchConfiguration
+MinSize: 2
+MaxSize: 2
+
+ec2LaunchConfiguration:
+Type: AWS::AutoScaling::LaunchConfiguration
+Properties:
+ImageId: ami-0c94855ba95c71c99
+InstanceType: t2.micro
+KeyName: my_key_pair
+SecurityGroups:
+- !Ref ec2SecurityGroup
+UserData:
+Fn::Base64: !Sub |
+#!/bin/bash
+cd /home/ec2-user
+git clone https://github.com/RajeshOrganization/Workflow-test-with-reactAPP.git
+cd Workflow-test-with-reactAPP
+npm install
+npm start
+
+ec2InstanceAz1a:
+Type: AWS::EC2::Instance
+Properties:
+InstanceType: t2.micro
+ImageId: ami-0c94855ba95c71c99
+KeyName: my_key_pair
+SubnetId: !Ref publicSubnetAz1a
+SecurityGroupIds:
+- !Ref ec2SecurityGroup
+UserData:
+Fn::Base64: !Sub |
+#!/bin/bash
+cd /home/ec2-user
+git clone https://github.com/RajeshOrganization/Workflow-test-with-reactAPP.git
+cd Workflow-test-with-reactAPP
+npm install
+npm start
+
+ec2InstanceAz1b:
+Type: AWS::EC2::Instance
+Properties:
+InstanceType: t2.micro
+ImageId: ami-0c94855ba95c71c99
+KeyName: my_key_pair
+SubnetId: !Ref publicSubnetAz1b
+SecurityGroupIds:
+- !Ref ec2SecurityGroup
+UserData:
+Fn::Base64: !Sub |
+#!/bin/bash
+cd /home/ec2-user
+git clone https://github.com/RajeshOrganization/Workflow-test-with-reactAPP.git
+cd Workflow-test-with-reactAPP
+npm install
+npm start
+
+Outputs:
+VpcId:
+Value: !Ref myVpc
+PublicSubnetAz1a:
+Value: !Ref publicSubnetAz1a
+PublicSubnetAz1b:
+Value: !Ref publicSubnetAz1b
+PublicSubnetAz2a:
+Value: !Ref publicSubnetAz2a
+PublicSubnetAz2b:
+Value: !Ref publicSubnetAz2b
+PrivateSubnetAz1a:
+Value: !Ref privateSubnetAz1a
+PrivateSubnetAz2a:
+Value: !Ref privateSubnetAz2a
+RdsEndpoint:
+Value: !GetAtt rdsInstance.Endpoint.Address
