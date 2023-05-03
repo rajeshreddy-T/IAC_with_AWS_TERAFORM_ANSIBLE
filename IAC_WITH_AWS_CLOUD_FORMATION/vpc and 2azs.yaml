@@ -1,0 +1,26 @@
+# create a vpc consisting of 2 AZ in us-east-1 
+# and in each AZ create 2 public subnets and 1 private
+# 2 public subnets should consist of the one ec2 instance each 
+# And private subnet consist of postgres RDS
+
+# 1. Create a VPC
+# 2. Create 2 public subnets in 2 AZs
+# 3. Create 1 private subnet in 2 AZs
+# 4. Create 2 ec2 instances in 2 public subnets
+# 5. Create 2 RDS in 2 private subnets
+
+Resources:
+  myVpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: "10.0.0.0/16"
+      Tags:
+        - Key: Name
+          Value: my_vpc
+
+  publicSubnetAz1a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref myVpc
+      AvailabilityZone: "us-east-1a"
+      CidrBlock: "10"

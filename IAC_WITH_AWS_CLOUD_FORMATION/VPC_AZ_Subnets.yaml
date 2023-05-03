@@ -1,0 +1,88 @@
+Resources:
+  myVpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: "10.0.0.0/16"
+      Tags:
+        - Key: Name
+          Value: my_vpc
+
+  publicSubnetAz1a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref myVpc
+      AvailabilityZone: "us-east-1a"
+      CidrBlock: "10.0.1.0/24"
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: public_subnet_az1a
+
+  publicSubnetAz1b:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref myVpc
+      AvailabilityZone: "us-east-1a"
+      CidrBlock: "10.0.2.0/24"
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: public_subnet_az1b
+
+  publicSubnetAz2a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref myVpc
+      AvailabilityZone: "us-east-1b"
+      CidrBlock: "10.0.3.0/24"
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: public_subnet_az2a
+
+  publicSubnetAz2b:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref myVpc
+      AvailabilityZone: "us-east-1b"
+      CidrBlock: "10.0.4.0/24"
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: public_subnet_az2b
+
+  privateSubnetAz1a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref myVpc
+      AvailabilityZone: "us-east-1a"
+      CidrBlock: "10.0.5.0/24"
+      Tags:
+        - Key: Name
+          Value: private_subnet_az1a
+
+  privateSubnetAz2a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref myVpc
+      AvailabilityZone: "us-east-1b"
+      CidrBlock: "10.0.6.0/24"
+      Tags:
+        - Key: Name
+          Value: private_subnet_az2a
+
+Outputs:
+  VpcId:
+    Value: !Ref myVpc
+  PublicSubnetAz1a:
+    Value: !Ref publicSubnetAz1a
+  PublicSubnetAz1b:
+    Value: !Ref publicSubnetAz1b
+  PublicSubnetAz2a:
+    Value: !Ref publicSubnetAz2a
+  PublicSubnetAz2b:
+    Value: !Ref publicSubnetAz2b
+  PrivateSubnetAz1a:
+    Value: !Ref privateSubnetAz1a
+  PrivateSubnetAz2a:
+    Value: !Ref privateSubnetAz2a

@@ -1,0 +1,78 @@
+Resources:
+  ec2SecurityGroup:
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: Security group for EC2 instances
+        VpcId: vpc-0634854fee8f834d1
+  # Create EC2 instances in public subnets
+  ec2Instance1Az1a:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-007855ac798b5175e
+      KeyName: my_key_pair
+      SubnetId: subnet-0eb068a0dcef61278
+      SecurityGroupIds:
+        - !Ref ec2SecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          cd /home/ec2-user
+          git clone https://github.com/RajeshOrganization/Workflow-test-with-reactAPP.git
+          cd Workflow-test-with-reactAPP
+          npm install
+          npm start
+
+  ec2Instance2Az1a:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-007855ac798b5175e
+      KeyName: my_key_pair
+      SubnetId: subnet-0eb068a0dcef61278
+      SecurityGroupIds:
+        - !Ref ec2SecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          cd /home/ec2-user
+          git clone https://github.com/RajeshOrganization/Workflow-test-with-reactAPP.git
+          cd Workflow-test-with-reactAPP
+          npm install
+          npm start
+
+  ec2Instance1Az1b:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-007855ac798b5175e
+      KeyName: my_key_pair
+      SubnetId: !Ref publicSubnetAz1b
+      SecurityGroupIds:
+        - !Ref ec2SecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          cd /home/ec2-user
+          git clone https://github.com/RajeshOrganization/Workflow-test-with-reactAPP.git
+          cd Workflow-test-with-reactAPP
+          npm install
+          npm start
+
+  ec2Instance2Az1b:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-007855ac798b5175e
+      KeyName: my_key_pair
+      SubnetId: !Ref publicSubnetAz1b
+      SecurityGroupIds:
+        - !Ref ec2SecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          cd /home/ec2-user
+          git clone https://github.com/RajeshOrganization/Workflow-test-with-reactAPP.git
+          cd Workflow-test-with-reactAPP
+          npm install
+          npm start
