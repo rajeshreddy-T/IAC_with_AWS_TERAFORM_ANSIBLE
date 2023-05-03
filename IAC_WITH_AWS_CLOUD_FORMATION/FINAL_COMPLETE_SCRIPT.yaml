@@ -103,7 +103,7 @@ Resources:
       SubnetId: !Ref PublicSubnet2
       RouteTableId: !Ref PublicRouteTable
 
-  WebServer1a:
+  WebServer1a: # deploy your React application into this
     Type: 'AWS::EC2::Instance'
     Properties:
       InstanceType: t2.micro
@@ -113,7 +113,7 @@ Resources:
       SecurityGroupIds:
         - !Ref WebServerSecurityGroup
 
-  WebServer1b:
+  WebServer1b: # deploy your backend node application into this
     Type: 'AWS::EC2::Instance'
     Properties:
       InstanceType: t2.micro
@@ -123,7 +123,7 @@ Resources:
       SecurityGroupIds:
         - !Ref WebServerSecurityGroup
 
-  WebServer2a:
+  WebServer2a:  # deploy your React application into this
     Type: 'AWS::EC2::Instance'
     Properties:
       InstanceType: t2.micro
@@ -133,7 +133,7 @@ Resources:
       SecurityGroupIds:
         - !Ref WebServerSecurityGroup
 
-  WebServer2b:
+  WebServer2b: # deploy your backend node application into this
     Type: 'AWS::EC2::Instance'
     Properties:
       InstanceType: t2.micro
